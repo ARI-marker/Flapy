@@ -33,7 +33,94 @@ export default function App() {
   let obstaclesTimerId;
 
   useEffect(() => {
+      if(birdBottom > 0){
+        gameTimerId = setInterval(() => {
+          setBirdBottom(birdBottom => birdBottom - 3)
+        } , 30)
 
-  });
+        return() =>{
+          clearInterval(gameTimerId)
+        }
+      }
+  } , [birdBottom])
+
+
+    useEffect(() =>{
+      if(obstacleLeft> -60){
+        obstaclesTimerId = setInterval (() => {
+          setObstacleLeft(obstacleLeft => obstacleLeft -5)
+        },30)
+        return() =>{
+          clearInterval(obstaclesTimerId)
+        }
+      }else{
+        setScore(score +1)
+        setObstacleLeft(screenWidth)
+        setObstacleNegHeight (-Math.random() * 100)
+      }
+    } , [obstacleLeft])
+
+
+    useEffect(() =>{
+      if(obstacleLeftTwo> -60){
+        obstaclesTimerId = setInterval (() => {
+          setObstacleLeftTwo(obstacleLeftTwo => obstacleLeftTwo -5)
+        },30)
+        return() =>{
+          clearInterval(obstaclesTimerId)
+        }
+      }else{
+        setScore(score +1)
+        setObstacleLeft(screenWidth)
+        setObstacleNegHeightTwo (-Math.random() * 100)
+      }
+    } , [obstacleLeftTwo])
+
+
+const jump = () => {
+  if (!isGameOver && (birdBottom < screenHeight)) {
+    setBirdBottom(birdBottom => birdBottom + 50)
+    console.log('jumped')
+  }
+}
+
+
+useEffect (() => {
+    if (
+      ((birdBottom < (obstacleNegHeight + obstacleNegHeight + 30) ||
+        birdBottom > (obstacleNegHeightTwo + obstacleNegHeight + gap - 30) &&
+      (obstacleLeft > screenWidth / 2 - 30 && obstacleLeft < screenWidth / 2 + 30)   
+    
+    )
+      ||
+      ((birdBottom < obstacleNegHeightTwo + obstacleNegHeight + 3)
+        || birdBottom > (obstacleNegHeightTwo + obstacleNegHeight + gap - 30)) &&
+        (obstacleLeftTwo > screenWidth / 2 - 30 && obstacleLeftTwo < screenWidth / 2 + 30)
+  )
+    ) {
+      isGameOver()
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
